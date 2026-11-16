@@ -1,0 +1,82 @@
+LIVE KERNEL CONCURRENCY CASES / PRIMARY EVIDENCE / 2026-11-16
+Scope: OPEN on syzbot upstream as fetched 2026-11-16. Open status can change at any time.
+No execution on user's laptop has been performed. The user's installed kernel version and exact config are NOT live-verified here.
+Run crash / hang reproductions ONLY in a disposable guest with console and snapshot.
+TRAINING RULE: Do not read a patch before producing the dependency graph and raw syscall trace.
+
+KVM CASE
+Tracker https://syzkaller.appspot.com/bug?extid=f59eab881ec20d423ab0
+Original C source https://syzkaller.appspot.com/text?tag=ReproC&x=1782f8ad580000
+Original .config https://syzkaller.appspot.com/text?tag=KernelConfig&x=d44b06612b68f56
+Recorded failing upstream kernel SHA fa4ad798f6f6 (2026-11-08)
+Report status: open, C reproducer reported 2026-11-12.
+Crash evidence: vhost_task_stop -> wait_for_completion, reported blocked for >143 sec.
+The root-cause story on the tracker is AI-generated; do not equate it to confirmed human review.
+
+ACTUAL SOURCE CONSTANTS, NOT INVENTED NUMBERS
+include/linux/sched.h at upstream (2026-11):
+TASK_INTERRUPTIBLE = 0x00000001
+TASK_UNINTERRUPTIBLE = 0x00000002
+TASK_FROZEN = 0x00008000
+TASK_NORMAL = 0x00000001 | 0x00000002 = 0x00000003
+0x8000 & 0x3 = 0x0
+1000 0000 0000 0000
+0000 0000 0000 0011
+-------------------
+0000 0000 0000 0000
+
+ORIGINAL REPRO USERSPACE -> KERNEL OPERATIONS
+Case 0: mkdirat for ./cgroup.net/syz0
+Case 1: openat cgroup dir => r[0]
+Case 2: openat freezer.state => r[1]
+Case 3: openat tasks => r[2]
+Case 4: write tasks => move PID or fail; verify strace result rather than assuming success
+Case 5: openat /dev/kvm => r[3]
+Case 6: ioctl 0xae01 KVM_CREATE_VM => r[4]
+Case 7: ioctl 0xae41 KVM_CREATE_VCPU => r[5]
+Case 8: ioctl 0xae80 KVM_RUN
+Case 9: write FROZEN with 7 bytes including NUL to freezer.state
+Resource array starts with six 0xffffffffffffffff values; each syscall fills a slot ONLY if it returns a valid descriptor.
+close_fds closes descriptors 3 through 29 inclusive AFTER scheduling calls. Calls use worker threads, which means textual case order does not prove completion order.
+NOTE: file begins with #define __NR_ioctl 54 (when absent) and #define __NR_openat 295.
+Verified kernel tables: i386: ioctl 54, openat 295; x86_64: ioctl 16, openat 257; x86_64 number 54 = setsockopt, 295 = preadv.
+Therefore, compile original generated C as 32-bit x86 for ABI fidelity. A 64-bit compile is NOT equivalent. Check -m32 availability before attempting.
+The original C uses 16 thread slots, 10 call cases, per-call wait up to 50ms, a final wait of up to 100ms, and outer process timeout 5000ms.
+16*128 KiB=2048 KiB declared thread stack sizes if all 16 slots get created; this is an upper bound on requested thread stack sizes, not physical RSS.
+10*50ms=500ms sum of per-call timeouts (upper bound on sum when each waits fully); actual calls overlap, and this does not predict real elapsed time.
+5000ms / 10ms = 500 outer polling intervals in a fully blocked case; condition checking and scheduling introduce timing differences.
+Q0: Demonstrate, from source, which exact descriptor must remain open for the KVM worker to exist.
+Q1: Extract from strace which case calls actually succeeded, including cgroup task placement.
+Q2: In procfs, distinguish a frozen worker from a worker awaiting a mutex.
+Q3: Determine whether a wake request targets its actual task state using raw task-state values.
+Q4: Draw an execution interleaving that reaches vhost_task_stop before the worker signals completion.
+Q5: Explain why close_fds on the caller can block when a different worker is frozen.
+No patch or answer provided. Do not run on host.
+
+OCFS2 CASE
+Tracker https://syzkaller.appspot.com/bug?extid=3f66416993279938e957
+Original C https://syzkaller.appspot.com/text?tag=ReproC&x=10784bfd580000
+Current as checked: OPEN; five reported crashes on 2026-11-14 at SHA 97d73c825122.
+Observed source links: fs/ocfs2/xattr.c, fs/ocfs2/file.c, fs/ocfs2/refcounttree.c, fs/ocfs2/journal.c.
+Observed lockdep chain: sb_internal#2 -> j_trans_barrier -> ip_alloc_sem/1 -> sb_internal#2.
+CRITICAL INTERVIEW TRAP: A cycle of lock CLASSES is not automatically a cycle of the same live lock OBJECTS.
+The syzbot page AI explanation calls it a subclass collision; human confirmation of this conclusion was not found.
+Question: prove or refute real simultaneous contention, not merely the cycle seen in lockdep.
+
+V9FS / CACHEFILES / IMA CASE
+Tracker https://syzkaller.appspot.com/bug?extid=b8ae5f37f5baa84cb085
+Current as checked: OPEN, C repro and retest on upstream SHA fa2933aac170 on 2026-11-16.
+Observed lockdep chain: sb_writers#5 -> ima_iint_mutex_key[depth] -> i_mutex_key#25 -> sb_writers#5.
+Functions: fs/namei.c do_open, security/integrity/ima/ima_main.c process_measurement, fs/9p/vfs_file.c v9fs_file_read_iter, fs/cachefiles/io.c __cachefiles_write.
+Question: Can lockdep be correct about graph edges yet the reported execution schedule still be impossible? Need distinguish local backing inode from 9p upper inode.
+
+SOURCE SLIDE RELEVANCE
+316 source slides were inspected by title and content for relevant system layers. Important subjects include process/thread life-cycle, virtual memory, syscalls, tracing, ftrace, kprobes, KCSAN, lockdep and kernel OOPS. The 13 repository PDF binaries were not individually read; do not claim PDF inspection.
+File slide-by-slide mapping: SLIDE_SOURCE_REVIEW_2026_11_16.txt
+
+SAFETY / REPRODUCTION
+Before reproduction, obtain exact uname -a, host architecture, KVM availability, cgroup freezer state, exact kernel config and compiler multilib support. This requires running probe_host_readonly.sh on the user's own machine. The probe does not perform writes.
+Create a disposable QEMU guest with a matching historical kernel to make a valid before/after comparison. Without the same config, kernel SHA and ABI, a negative result is not proof of fix.
+
+ONE ATOMIC TASK:
+Run the read-only probe script on your Linux laptop and paste its complete output. Do NOT run the C repro on the host.
