@@ -1,0 +1,68 @@
+LINUX CONCURRENCY INTERVIEW REPRODUCTIONS
+Prepared 2026-11-16. Fork source baseline 4d09fa14eff8b8cf569adcc46072777db1d22a37.
+The goal is to discover the first incorrect dependency, not memorize command names.
+A live result on your laptop has NOT been verified here.
+Do not run kernel crash/hang reproducers on the host. Use a disposable QEMU guest.
+Each item has a matching worksheet.txt, source.cpp and five colored causal diagrams in the downloadable lab package.
+
+TITLE: 01 LOCK ORDER: opposing nested mutexes (teaching defect)
+LAYER: kernel/locking
+CAUSE: Worker A owns lock A then wants B; worker B owns B then wants A. Both block if both hold the first lock.
+SOURCE: https://github.com/SpecialistLinuxTraining/linux-debug-training/blob/main/Examples/lockdep/lockdep_demo.c
+REPRO: Use the repo's module ONLY in a CONFIG_PROVE_LOCKING=y guest. Examine the two stack traces and their held locks. Do not force-remove an uninterruptible module.
+EVIDENCE: https://docs.kernel.org/locking/lockdep-design.html
+PUZZLE: When the two locks are each individually correct, why can the whole program stop? Draw the dependency arrows before proposing a change.
+
+TITLE: 02 UNSYNCHRONIZED EXIT FLAG (real issue in training code)
+LAYER: userspace / pthread / compiler
+CAUSE: Main stores exit_flag=1, workers read plain exit_flag without a valid cross-thread ordering relationship.
+SOURCE: https://github.com/SpecialistLinuxTraining/linux-debug-training/blob/main/Examples/ProcessAndThreads/thread.c
+REPRO: Build the file with gcc -O1 -g -pthread -fsanitize=thread; start and exit with input e; examine any ThreadSanitizer report. Compiles do not prove correctness.
+EVIDENCE: https://github.com/google/sanitizers/wiki/ThreadSanitizerCppManual
+PUZZLE: Why does a read inside a loop not guarantee observation of a write from a different thread?
+
+TITLE: 03 INCOHERENT RECORD (intentionally buggy KCSAN example)
+LAYER: kernel timer / shared data
+CAUSE: Writer changes valid, seq, len, buf and checksum separately; reader can sample a mixture without a synchronization contract.
+SOURCE: https://github.com/SpecialistLinuxTraining/linux-debug-training/blob/main/Examples/KCSAN/kcsan_race_demo.c
+REPRO: In a CONFIG_KCSAN=y guest, build and insert course module. Use the repository's debugfs instructions to start the writer and timer and observe stats and KCSAN reports.
+EVIDENCE: https://docs.kernel.org/dev-tools/kcsan.html
+PUZZLE: Which exact record state was published? A true flag alone does not establish that all fields belong to the same update.
+
+TITLE: 04 GLIBC LOST WAKEUP, BZ 25847 (historic production bug)
+LAYER: pthread -> glibc nptl -> futex
+CAUSE: A delayed waiter acts on stale group signal accounting after group changes; a signal can go to an empty group.
+SOURCE: https://sourceware.org/pipermail/glibc-bugs/2020-December/049326.html
+REPRO: Use an isolated glibc 2.35/2.37 build, original reproducer attachment https://sourceware.org/bugzilla/attachment.cgi?id=14360, and sourceware historical fix discussion. Do NOT overwrite your host libc. Compare exact loaded glibc versions.
+EVIDENCE: https://sourceware.org/pipermail/glibc-cvs/2025q2/088188.html
+PUZZLE: Can two identical counter values describe different logical waiter generations? Derive the distinction without relying on timing.
+STATUS: As of March 2026 upstream release/2.38 through 2.41 carry fix; older branches not universally backported: https://sourceware.org/pipermail/glibc-bugs/2026-March/061093.html
+
+TITLE: 05 SHMEM QUOTA LOCK NESTING (production Linux, 2023)
+LAYER: madvise -> khugepaged -> shmem -> quota -> inode
+CAUSE: i_pages lock is held when quota charging acquires i_lock; another path has the opposite dependency.
+SOURCE: https://syzkaller.appspot.com/bug?extid=440ff8cca06ee7a1d4db
+REPRO: Use the syzbot C reproducer and .config on a pre-fix kernel in QEMU. Gather lockdep warning, process stacks and git history. Do not use a patched host kernel as proof of original reproducibility.
+EVIDENCE: Introducing commit 1a93dd24f1be; fix 509f006932de
+PUZZLE: Which function introduces an extra lock acquisition underneath an already-held lock?
+
+TITLE: 06 HUGETLB MIGRATION VS HOLE PUNCH (production Linux, 2026)
+LAYER: fallocate -> hugetlbfs ; mbind -> mm/migrate -> rmap
+CAUSE: Hole punch holds mapping write lock then requests folio lock. Migration holds folio lock then asks for mapping read lock.
+SOURCE: https://syzkaller.appspot.com/bug?extid=2d9c96466c978346b55f
+REPRO: C reproducer https://syzkaller.appspot.com/text?tag=ReproC&x=120afc58580000 ; exact reported kernel 552c50713f27 and syzbot .config. VM requires appropriate huge pages, NUMA and subsystems used by reproducer.
+EVIDENCE: Fix b7880cb166ab62c2409046b2347261abf701530e ; reviewer correction https://lists.openwall.net/linux-kernel/2026/01/09/89
+PUZZLE: Which side violates the declared lock order? A stack blocked at folio_lock does not identify the incorrect owner.
+
+TITLE: 07 IO_URING LINKED WORK EXIT (production Linux, 2026)
+LAYER: io_uring -> worker queue -> linked operations -> process exit
+CAUSE: The outer worker re-checks exit; the inner linked-work chain can reuse a stale exit-state decision.
+SOURCE: https://lkml.iu.edu/hypermail/linux/kernel/2605.3/06161.html
+REPRO: Use isolated pre-fix kernel containing 10dc95939817 but before 29bef9934b2521. Reproducer for this narrower linked-chain issue NOT verified. Do not assume historic report for the older issue fully exercises it.
+EVIDENCE: 2026 follow-up fix 29bef9934b2521f787bb15dd1985d4c0d12ae02a
+PUZZLE: Which state must be rechecked for each linked work item, and why does an outer-loop check fail to cover it?
+
+INTERVIEW REPRODUCTION RULES
+Capture source SHA, compiled kernel/libc version, execution environment, exact evidence, first incorrect dependency, and regression-test comparison. A warning is not automatically a real hang; a syzbot C reproducer is not automatically reproducible on a modern kernel.
+Question sets and graphics are provided in the downloadable artifact. No solutions are in the worksheets.
+Source links in this file are primary reports, code, kernel docs or patch history; not all reproductions were run on your laptop.
