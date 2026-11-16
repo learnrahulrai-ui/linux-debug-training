@@ -1,0 +1,33 @@
+BUG 03: KCSAN mas_wr_store_entry / mtree_load
+STATUS CHECKED: syzbot upstream open 2026-11-16; report 2026-07-26
+TYPE: Kernel Maple Tree concurrent lookup and replacement
+PRIMARY SOURCE: https://syzkaller.appspot.com/bug?extid=caa2ebc5f1f594970675
+ORIGINAL REPRODUCER: C link and crash report on the bug page
+ENVIRONMENT: KCSAN-enabled QEMU guest, matching config/commit. Kernel in production can run without KCSAN but original data race detector is required for proof.
+MECHANISM TO INVESTIGATE (not established fact): Concurrent node replacement and read access reported by KCSAN; tagged race:harmful, priority high. Inspect the actual accesses and their intended synchronization.
+EVIDENCE: KCSAN conflicting 8-byte accesses; report is primary crash evidence, not a proof of practical exploit.
+DIFFICULTY: Hard core-kernel race
+
+UNSOLVED INTERVIEW TASK
+Map writer and reader addresses. Find where the old node is marked dead and what a concurrent reader is allowed to observe. Do not infer real memory corruption from a KCSAN report alone.
+
+OBSERVATION RECORD -- DO NOT GUESS
+Host uname: UNMEASURED
+Kernel commit: UNMEASURED
+Kernel config: UNMEASURED
+Toolchain: UNMEASURED
+C repro built: NOT EXECUTED
+C repro result: NOT EXECUTED
+Lock/thread/object addresses: UNMEASURED
+Precise precondition that triggers bug: TO DERIVE
+Observed order of syscalls and lock acquisitions: TO FILL
+First violated invariant: TO FILL
+Proof that alternate theory is false: TO FILL
+
+BEFORE REPRO
+1. Read original C/POC and crash report, not the AI-generated explanation as evidence.
+2. Pin matching kernel SHA, config, architecture, compiler ABI and module availability.
+3. Build a disposable QEMU VM; capture serial logs, kernel splats and strace.
+4. Run the original reproducer in the guest only. Stop on unintended writes to real block devices.
+5. Draw actual object-level wait graph. A lockdep class cycle does not always prove an object-level deadlock.
+6. Preserve the original log then reproduce on a patched kernel separately.

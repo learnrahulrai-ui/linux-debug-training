@@ -1,0 +1,33 @@
+BUG 06: 9p + cachefiles + IMA lock dependency
+STATUS CHECKED: syzbot upstream open 2026-11-16; reported 2026-11-14; retest 2026-11-16
+TYPE: Network filesystem, local cache, IMA, lockdep cross-layer
+PRIMARY SOURCE: https://syzkaller.appspot.com/bug?extid=b8ae5f37f5baa84cb085
+ORIGINAL REPRODUCER: C reproduced by syzbot, linked on page
+ENVIRONMENT: VM with v9fs, cachefiles and IMA test setup; compare lock classes to distinct inodes/superblocks.
+MECHANISM TO INVESTIGATE (not established fact): Warning contains sb_writers -> IMA mutex -> 9p i_rwsem -> sb_writers. AI-generated false-positive explanation is not human-confirmed.
+EVIDENCE: Repeated lockdep report and independent syzbot retest.
+DIFFICULTY: Very hard cross-filesystem dependency
+
+UNSOLVED INTERVIEW TASK
+Resolve actual object identity for each lock. Identify which edges cross a local cache superblock vs 9p superblock.
+
+OBSERVATION RECORD -- DO NOT GUESS
+Host uname: UNMEASURED
+Kernel commit: UNMEASURED
+Kernel config: UNMEASURED
+Toolchain: UNMEASURED
+C repro built: NOT EXECUTED
+C repro result: NOT EXECUTED
+Lock/thread/object addresses: UNMEASURED
+Precise precondition that triggers bug: TO DERIVE
+Observed order of syscalls and lock acquisitions: TO FILL
+First violated invariant: TO FILL
+Proof that alternate theory is false: TO FILL
+
+BEFORE REPRO
+1. Read original C/POC and crash report, not the AI-generated explanation as evidence.
+2. Pin matching kernel SHA, config, architecture, compiler ABI and module availability.
+3. Build a disposable QEMU VM; capture serial logs, kernel splats and strace.
+4. Run the original reproducer in the guest only. Stop on unintended writes to real block devices.
+5. Draw actual object-level wait graph. A lockdep class cycle does not always prove an object-level deadlock.
+6. Preserve the original log then reproduce on a patched kernel separately.

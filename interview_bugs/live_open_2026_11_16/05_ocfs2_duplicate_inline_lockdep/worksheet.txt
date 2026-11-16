@@ -1,0 +1,33 @@
+BUG 05: OCFS2 remap/transaction lock cycle
+STATUS CHECKED: syzbot upstream open 2026-11-16; reported 2026-11-14; patch under discussion
+TYPE: OCFS2 inode classes, transaction barrier, lockdep
+PRIMARY SOURCE: https://syzkaller.appspot.com/bug?extid=3f66416993279938e957
+ORIGINAL REPRODUCER: syzkaller and C repro linked on page
+ENVIRONMENT: Guest with OCFS2 filesystem image and reported kernel CONFIG; avoid mounting malformed images on host.
+MECHANISM TO INVESTIGATE (not established fact): Lockdep shows sb_internal -> j_trans_barrier -> ip_alloc_sem/1 -> sb_internal. A proposed patch treats subclass reuse as a false dependency; validate whether the lock objects can actually block one another.
+EVIDENCE: Crash stack and linked patch discussion.
+DIFFICULTY: Senior-level lock-class false positive reasoning
+
+UNSOLVED INTERVIEW TASK
+Build two graphs: actual semaphore instances, and lockdep classes. Prove or reject equivalence of the two graphs.
+
+OBSERVATION RECORD -- DO NOT GUESS
+Host uname: UNMEASURED
+Kernel commit: UNMEASURED
+Kernel config: UNMEASURED
+Toolchain: UNMEASURED
+C repro built: NOT EXECUTED
+C repro result: NOT EXECUTED
+Lock/thread/object addresses: UNMEASURED
+Precise precondition that triggers bug: TO DERIVE
+Observed order of syscalls and lock acquisitions: TO FILL
+First violated invariant: TO FILL
+Proof that alternate theory is false: TO FILL
+
+BEFORE REPRO
+1. Read original C/POC and crash report, not the AI-generated explanation as evidence.
+2. Pin matching kernel SHA, config, architecture, compiler ABI and module availability.
+3. Build a disposable QEMU VM; capture serial logs, kernel splats and strace.
+4. Run the original reproducer in the guest only. Stop on unintended writes to real block devices.
+5. Draw actual object-level wait graph. A lockdep class cycle does not always prove an object-level deadlock.
+6. Preserve the original log then reproduce on a patched kernel separately.

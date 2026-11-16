@@ -1,0 +1,33 @@
+BUG 07: OverlayFS copy-up xattr with kernfs and IMA
+STATUS CHECKED: syzbot upstream open 2026-11-16; reported 2026-11-13
+TYPE: OverlayFS upper/lower locking, path lookup, IMA, kernfs
+PRIMARY SOURCE: https://syzkaller.appspot.com/bug?extid=da1d15f707a556f6e48c
+ORIGINAL REPRODUCER: C and lockdep report linked on page
+ENVIRONMENT: Guest with overlayfs and configured IMA, control of kernfs/sysfs access.
+MECHANISM TO INVESTIGATE (not established fact): Reported 5-edge circular lock dependency. Report hypothesis describes per-class aggregation across distinct file instances.
+EVIDENCE: C reproducer and a retest on linux-next listed on tracker.
+DIFFICULTY: Very hard scope-of-lock reasoning
+
+UNSOLVED INTERVIEW TASK
+Reconstruct five lock-class edges from stack traces and check if there is a schedule with the SAME lock objects forming the cycle.
+
+OBSERVATION RECORD -- DO NOT GUESS
+Host uname: UNMEASURED
+Kernel commit: UNMEASURED
+Kernel config: UNMEASURED
+Toolchain: UNMEASURED
+C repro built: NOT EXECUTED
+C repro result: NOT EXECUTED
+Lock/thread/object addresses: UNMEASURED
+Precise precondition that triggers bug: TO DERIVE
+Observed order of syscalls and lock acquisitions: TO FILL
+First violated invariant: TO FILL
+Proof that alternate theory is false: TO FILL
+
+BEFORE REPRO
+1. Read original C/POC and crash report, not the AI-generated explanation as evidence.
+2. Pin matching kernel SHA, config, architecture, compiler ABI and module availability.
+3. Build a disposable QEMU VM; capture serial logs, kernel splats and strace.
+4. Run the original reproducer in the guest only. Stop on unintended writes to real block devices.
+5. Draw actual object-level wait graph. A lockdep class cycle does not always prove an object-level deadlock.
+6. Preserve the original log then reproduce on a patched kernel separately.

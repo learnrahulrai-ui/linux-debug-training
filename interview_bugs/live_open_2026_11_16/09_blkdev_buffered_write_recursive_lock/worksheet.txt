@@ -1,0 +1,33 @@
+BUG 09: blkdev_write_iter recursively acquires inode lock
+STATUS CHECKED: syzbot upstream open 2026-11-16; reported 2026-10-29; proposed patch
+TYPE: Block buffered write and recursive locking
+PRIMARY SOURCE: https://syzkaller.appspot.com/bug?extid=39e465d3f7a1555b0f96
+ORIGINAL REPRODUCER: C and syz links on report
+ENVIRONMENT: Guest with block-device test image and matching kernel; do not target real disks.
+MECHANISM TO INVESTIGATE (not established fact): Trace reports the SAME lock address ffff88802a5f1ee8 at both held and requested acquisitions. This differs from a class-only deadlock warning.
+EVIDENCE: Recorded recursive-lock warning and patch discussion.
+DIFFICULTY: High-priority first-principles lock investigation
+
+UNSOLVED INTERVIEW TASK
+Trace both inode_lock_shared call paths and the buffered write call chain. Identify where the second acquisition occurs before unlock.
+
+OBSERVATION RECORD -- DO NOT GUESS
+Host uname: UNMEASURED
+Kernel commit: UNMEASURED
+Kernel config: UNMEASURED
+Toolchain: UNMEASURED
+C repro built: NOT EXECUTED
+C repro result: NOT EXECUTED
+Lock/thread/object addresses: UNMEASURED
+Precise precondition that triggers bug: TO DERIVE
+Observed order of syscalls and lock acquisitions: TO FILL
+First violated invariant: TO FILL
+Proof that alternate theory is false: TO FILL
+
+BEFORE REPRO
+1. Read original C/POC and crash report, not the AI-generated explanation as evidence.
+2. Pin matching kernel SHA, config, architecture, compiler ABI and module availability.
+3. Build a disposable QEMU VM; capture serial logs, kernel splats and strace.
+4. Run the original reproducer in the guest only. Stop on unintended writes to real block devices.
+5. Draw actual object-level wait graph. A lockdep class cycle does not always prove an object-level deadlock.
+6. Preserve the original log then reproduce on a patched kernel separately.

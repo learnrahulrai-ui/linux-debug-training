@@ -1,0 +1,33 @@
+BUG 08: MD RAID md_alloc, major_names_lock and reconfig_mutex
+STATUS CHECKED: syzbot upstream open 2026-11-16; reported 2026-10-31
+TYPE: Block layer driver autoload / MD RAID and mutex ordering
+PRIMARY SOURCE: https://syzkaller.appspot.com/bug?extid=cd254889291ef8666036
+ORIGINAL REPRODUCER: C link on tracker
+ENVIRONMENT: Disposable VM with md block devices and matching kernel build/config; avoid host disk operations.
+MECHANISM TO INVESTIGATE (not established fact): Report proposes major_names_lock -> disks_mutex -> reconfig_mutex -> major_names_lock. Confirm source path, config gate and actual lock object identities.
+EVIDENCE: Multiple syzbot recorded crashes and lockdep trace. AI-generated cause not counted as final proof.
+DIFFICULTY: Hard block device architecture
+
+UNSOLVED INTERVIEW TASK
+Use one stack per edge. Check CONFIG_BLOCK_LEGACY_AUTOLOAD and the object-ownership paths. Is this a reachable true deadlock or lockdep-only cycle?
+
+OBSERVATION RECORD -- DO NOT GUESS
+Host uname: UNMEASURED
+Kernel commit: UNMEASURED
+Kernel config: UNMEASURED
+Toolchain: UNMEASURED
+C repro built: NOT EXECUTED
+C repro result: NOT EXECUTED
+Lock/thread/object addresses: UNMEASURED
+Precise precondition that triggers bug: TO DERIVE
+Observed order of syscalls and lock acquisitions: TO FILL
+First violated invariant: TO FILL
+Proof that alternate theory is false: TO FILL
+
+BEFORE REPRO
+1. Read original C/POC and crash report, not the AI-generated explanation as evidence.
+2. Pin matching kernel SHA, config, architecture, compiler ABI and module availability.
+3. Build a disposable QEMU VM; capture serial logs, kernel splats and strace.
+4. Run the original reproducer in the guest only. Stop on unintended writes to real block devices.
+5. Draw actual object-level wait graph. A lockdep class cycle does not always prove an object-level deadlock.
+6. Preserve the original log then reproduce on a patched kernel separately.

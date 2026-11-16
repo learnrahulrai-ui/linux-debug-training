@@ -1,0 +1,109 @@
+OPEN KERNEL / USERSpace CONCURRENCY BUGS / VERIFIED TRACKER STATUS 2026-11-16
+Repository: learnrahulrai-ui/linux-debug-training
+OPEN means tracker open, not proof root cause still exists on current HEAD and not proof it reproduces on your local machine.
+The user has not supplied a fresh live machine probe. Never run crashes or hangs on the host: use a disposable guest / isolated process.
+Source classification: syzbot upstream (LKML-linked) and GitHub issue trackers. An LKML thread is not itself an issue-status tracker.
+Trivial test failures, off-by-one, arithmetic overflow and simple null checks excluded.
+
+01 | io_uring blocking read after poll readiness changes
+https://github.com/axboe/liburing/issues/1623
+GitHub open, 2026-11-16
+User/kernel interface; real POC; maintainer acknowledged issue in comments
+https://github.com/mahkoh/io-uring-block-poc
+Linux x86_64 with io_uring, pseudo-terminal driver; a disposable VM is best to avoid indefinite waits.
+
+02 | Multishot recv + kTLS lost wakeup
+https://github.com/axboe/liburing/issues/1644
+GitHub open, 2026-11-16
+Kernel io_uring/socket lifetime + retry accounting
+Full C source embedded in issue #1644
+Reporter: kernel 7.2.6 x86_64, liburing 2.15, kTLS, TCP loopback, 1024*32768 byte buffers. Requires this kernel feature combination.
+
+03 | KCSAN mas_wr_store_entry / mtree_load
+https://syzkaller.appspot.com/bug?extid=caa2ebc5f1f594970675
+syzbot upstream open 2026-11-16; report 2026-07-26
+Kernel Maple Tree concurrent lookup and replacement
+C link and crash report on the bug page
+KCSAN-enabled QEMU guest, matching config/commit. Kernel in production can run without KCSAN but original data race detector is required for proof.
+
+04 | KVM vhost_task_stop blocked at VM close under freezer
+https://syzkaller.appspot.com/bug?extid=f59eab881ec20d423ab0
+syzbot upstream open 2026-11-16; C repro announced 2026-11-12
+KVM worker creation/teardown; cgroup freezer; task states
+C link, kernel .config and console log on report page
+DISPOSABLE QEMU guest, KVM and freezer settings matched to report, 32-bit x86 syscall ABI; never on host.
+
+05 | OCFS2 remap/transaction lock cycle
+https://syzkaller.appspot.com/bug?extid=3f66416993279938e957
+syzbot upstream open 2026-11-16; reported 2026-11-14; patch under discussion
+OCFS2 inode classes, transaction barrier, lockdep
+syzkaller and C repro linked on page
+Guest with OCFS2 filesystem image and reported kernel CONFIG; avoid mounting malformed images on host.
+
+06 | 9p + cachefiles + IMA lock dependency
+https://syzkaller.appspot.com/bug?extid=b8ae5f37f5baa84cb085
+syzbot upstream open 2026-11-16; reported 2026-11-14; retest 2026-11-16
+Network filesystem, local cache, IMA, lockdep cross-layer
+C reproduced by syzbot, linked on page
+VM with v9fs, cachefiles and IMA test setup; compare lock classes to distinct inodes/superblocks.
+
+07 | OverlayFS copy-up xattr with kernfs and IMA
+https://syzkaller.appspot.com/bug?extid=da1d15f707a556f6e48c
+syzbot upstream open 2026-11-16; reported 2026-11-13
+OverlayFS upper/lower locking, path lookup, IMA, kernfs
+C and lockdep report linked on page
+Guest with overlayfs and configured IMA, control of kernfs/sysfs access.
+
+08 | MD RAID md_alloc, major_names_lock and reconfig_mutex
+https://syzkaller.appspot.com/bug?extid=cd254889291ef8666036
+syzbot upstream open 2026-11-16; reported 2026-10-31
+Block layer driver autoload / MD RAID and mutex ordering
+C link on tracker
+Disposable VM with md block devices and matching kernel build/config; avoid host disk operations.
+
+09 | blkdev_write_iter recursively acquires inode lock
+https://syzkaller.appspot.com/bug?extid=39e465d3f7a1555b0f96
+syzbot upstream open 2026-11-16; reported 2026-10-29; proposed patch
+Block buffered write and recursive locking
+C and syz links on report
+Guest with block-device test image and matching kernel; do not target real disks.
+
+10 | device_register warning across NBD reconnect and memory reclaim
+https://syzkaller.appspot.com/bug?extid=a246ab421a728c78b4ad
+syzbot upstream open 2026-11-16; reported 2026-10-27; patches proposed
+NBD, network reconnect, device notification and reclaim
+C reproduction linked on tracker
+Guest with NBD config and dummy test device; requires reconciliation with ARM64 report environment.
+
+11 | systemd nsresourced and udev startup blocked by BTF fallback to /boot
+https://github.com/systemd/systemd/issues/41162
+GitHub open 2026-11-16; reported 2026-03-18
+Cross-process boot ordering / libbpf / automount
+Steps in issue 41162; related issue https://github.com/libbpf/libbpf/issues/955
+Disposable systemd guest with bpf-framework enabled, CONFIG_DEBUG_INFO_BTF unset, boot.automount. Do not change host boot config.
+
+12 | systemd ProtectHome namespace setup races with NFS autofs
+https://github.com/systemd/systemd/issues/42916
+GitHub open 2026-11-16; reported 2026-07-07
+RPC bind startup / namespace unmount / autofs
+Explicit openSUSE, KDE, NFS automount steps and linked SUSE Bugzilla logs
+Disposable openSUSE systemd guest with NFS client/server and home automounts. Higher setup cost.
+
+13 | systemd-machined D-Bus transaction timeout during VM churn
+https://github.com/systemd/systemd/issues/40562
+GitHub open 2026-11-16; reported 2026-02-04
+D-Bus IPC vs systemd daemon reloads
+Repeated VM starts/stops plus package upgrade triggering daemon-reexec and looped systemctl daemon-reload; source logs attached
+Isolated VM with systemd-machined; possibly distribution-specific. Evidence is reporter hypothesis, not independently proven deadlock.
+
+OPEN SOURCE TRACKERS INDEX
+https://syzkaller.appspot.com/upstream
+https://github.com/axboe/liburing/issues
+https://github.com/systemd/systemd/issues
+https://github.com/libbpf/libbpf/issues
+
+EXCLUDED FROM CONFIRMED BUG CATEGORY
+https://github.com/axboe/liburing/issues/1514 is an open question about cross-thread happens-before and TSan, not a verified implementation bug. Use as a research puzzle only.
+
+RUN ORDER
+Start with 01:io_uring poll TOCTOU in a VM, then 02:kTLS multishot, then 03:Maple Tree/KCSAN, then 04:KVM freezer. Focus on observable execution interleavings rather than copying patches.

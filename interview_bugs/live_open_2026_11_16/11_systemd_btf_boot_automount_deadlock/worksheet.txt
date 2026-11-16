@@ -1,0 +1,33 @@
+BUG 11: systemd nsresourced and udev startup blocked by BTF fallback to /boot
+STATUS CHECKED: GitHub open 2026-11-16; reported 2026-03-18
+TYPE: Cross-process boot ordering / libbpf / automount
+PRIMARY SOURCE: https://github.com/systemd/systemd/issues/41162
+ORIGINAL REPRODUCER: Steps in issue 41162; related issue https://github.com/libbpf/libbpf/issues/955
+ENVIRONMENT: Disposable systemd guest with bpf-framework enabled, CONFIG_DEBUG_INFO_BTF unset, boot.automount. Do not change host boot config.
+MECHANISM TO INVESTIGATE (not established fact): Reporter measured a 90-second block. libbpf fallback attempts to access /boot which may automount; mount requires device events from udev which is waiting on startup. Maintainers dispute component ownership.
+EVIDENCE: Original report includes strace; libbpf issue #955 links causal fallback. Open status verified via GitHub.
+DIFFICULTY: Very hard userspace/kernel integration
+
+UNSOLVED INTERVIEW TASK
+Trace who blocks waiting for whom from strace and systemd job logs. Verify the cycle without assuming a component is guilty.
+
+OBSERVATION RECORD -- DO NOT GUESS
+Host uname: UNMEASURED
+Kernel commit: UNMEASURED
+Kernel config: UNMEASURED
+Toolchain: UNMEASURED
+C repro built: NOT EXECUTED
+C repro result: NOT EXECUTED
+Lock/thread/object addresses: UNMEASURED
+Precise precondition that triggers bug: TO DERIVE
+Observed order of syscalls and lock acquisitions: TO FILL
+First violated invariant: TO FILL
+Proof that alternate theory is false: TO FILL
+
+BEFORE REPRO
+1. Read original C/POC and crash report, not the AI-generated explanation as evidence.
+2. Pin matching kernel SHA, config, architecture, compiler ABI and module availability.
+3. Build a disposable QEMU VM; capture serial logs, kernel splats and strace.
+4. Run the original reproducer in the guest only. Stop on unintended writes to real block devices.
+5. Draw actual object-level wait graph. A lockdep class cycle does not always prove an object-level deadlock.
+6. Preserve the original log then reproduce on a patched kernel separately.

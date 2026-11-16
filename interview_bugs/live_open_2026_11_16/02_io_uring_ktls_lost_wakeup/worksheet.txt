@@ -1,0 +1,33 @@
+BUG 02: Multishot recv + kTLS lost wakeup
+STATUS CHECKED: GitHub open, 2026-11-16
+TYPE: Kernel io_uring/socket lifetime + retry accounting
+PRIMARY SOURCE: https://github.com/axboe/liburing/issues/1644
+ORIGINAL REPRODUCER: Full C source embedded in issue #1644
+ENVIRONMENT: Reporter: kernel 7.2.6 x86_64, liburing 2.15, kTLS, TCP loopback, 1024*32768 byte buffers. Requires this kernel feature combination.
+MECHANISM TO INVESTIGATE (not established fact): Reporter measured stalled CQEs while socket readable. Source poll_refs overflow-to-bias explanation is proposed by reporter; not a merged upstream diagnosis.
+EVIDENCE: 9/17 reporter 45-second default runs stalled; 0/11 configured-limit runs stalled. Measured sample, not probability guarantee.
+DIFFICULTY: Excellent x86-64 numerical interview case
+
+UNSOLVED INTERVIEW TASK
+Derive ref count from 0x1 through 0x80. Independently inspect io_uring/poll.c v7.3-rc4 and compute (0x40000080-0x80)&0x3fffffff. Explain how a flag can survive after the loop exits.
+
+OBSERVATION RECORD -- DO NOT GUESS
+Host uname: UNMEASURED
+Kernel commit: UNMEASURED
+Kernel config: UNMEASURED
+Toolchain: UNMEASURED
+C repro built: NOT EXECUTED
+C repro result: NOT EXECUTED
+Lock/thread/object addresses: UNMEASURED
+Precise precondition that triggers bug: TO DERIVE
+Observed order of syscalls and lock acquisitions: TO FILL
+First violated invariant: TO FILL
+Proof that alternate theory is false: TO FILL
+
+BEFORE REPRO
+1. Read original C/POC and crash report, not the AI-generated explanation as evidence.
+2. Pin matching kernel SHA, config, architecture, compiler ABI and module availability.
+3. Build a disposable QEMU VM; capture serial logs, kernel splats and strace.
+4. Run the original reproducer in the guest only. Stop on unintended writes to real block devices.
+5. Draw actual object-level wait graph. A lockdep class cycle does not always prove an object-level deadlock.
+6. Preserve the original log then reproduce on a patched kernel separately.

@@ -1,0 +1,33 @@
+BUG 01: io_uring blocking read after poll readiness changes
+STATUS CHECKED: GitHub open, 2026-11-16
+TYPE: User/kernel interface; real POC; maintainer acknowledged issue in comments
+PRIMARY SOURCE: https://github.com/axboe/liburing/issues/1623
+ORIGINAL REPRODUCER: https://github.com/mahkoh/io-uring-block-poc
+ENVIRONMENT: Linux x86_64 with io_uring, pseudo-terminal driver; a disposable VM is best to avoid indefinite waits.
+MECHANISM TO INVESTIGATE (not established fact): Poll reports ready; competing reader consumes readiness; io_uring enters blocking read. The maintainer identified the need to revisit the fallback.
+EVIDENCE: Maintainer discussion with objection followed by acknowledgment; not yet reproduced here.
+DIFFICULTY: First candidate: high causal depth; source and POC supplied.
+
+UNSOLVED INTERVIEW TASK
+Extract exact time-of-check / time-of-use order from the Rust POC. Trace io_file_supports_nowait and the tty read path; explain why linked timeout cannot always release the blocked submitter.
+
+OBSERVATION RECORD -- DO NOT GUESS
+Host uname: UNMEASURED
+Kernel commit: UNMEASURED
+Kernel config: UNMEASURED
+Toolchain: UNMEASURED
+C repro built: NOT EXECUTED
+C repro result: NOT EXECUTED
+Lock/thread/object addresses: UNMEASURED
+Precise precondition that triggers bug: TO DERIVE
+Observed order of syscalls and lock acquisitions: TO FILL
+First violated invariant: TO FILL
+Proof that alternate theory is false: TO FILL
+
+BEFORE REPRO
+1. Read original C/POC and crash report, not the AI-generated explanation as evidence.
+2. Pin matching kernel SHA, config, architecture, compiler ABI and module availability.
+3. Build a disposable QEMU VM; capture serial logs, kernel splats and strace.
+4. Run the original reproducer in the guest only. Stop on unintended writes to real block devices.
+5. Draw actual object-level wait graph. A lockdep class cycle does not always prove an object-level deadlock.
+6. Preserve the original log then reproduce on a patched kernel separately.

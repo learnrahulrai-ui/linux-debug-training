@@ -1,0 +1,33 @@
+BUG 04: KVM vhost_task_stop blocked at VM close under freezer
+STATUS CHECKED: syzbot upstream open 2026-11-16; C repro announced 2026-11-12
+TYPE: KVM worker creation/teardown; cgroup freezer; task states
+PRIMARY SOURCE: https://syzkaller.appspot.com/bug?extid=f59eab881ec20d423ab0
+ORIGINAL REPRODUCER: C link, kernel .config and console log on report page
+ENVIRONMENT: DISPOSABLE QEMU guest, KVM and freezer settings matched to report, 32-bit x86 syscall ABI; never on host.
+MECHANISM TO INVESTIGATE (not established fact): Observed wait_for_completion in vhost_task_stop, >143 seconds. Freezer interaction is a plausible source hypothesis and must be tested against task state, worker flags, and configuration.
+EVIDENCE: Original stack includes KVM release -> vhost_task_stop -> wait_for_completion.
+DIFFICULTY: Hard kernel/virtualization concurrency
+
+UNSOLVED INTERVIEW TASK
+Trace /dev/kvm open -> VM create -> close -> vhost_task_stop. Decode 0x8000 & 0x3. Identify why the completion is absent and confirm whether the worker truly entered TASK_FROZEN.
+
+OBSERVATION RECORD -- DO NOT GUESS
+Host uname: UNMEASURED
+Kernel commit: UNMEASURED
+Kernel config: UNMEASURED
+Toolchain: UNMEASURED
+C repro built: NOT EXECUTED
+C repro result: NOT EXECUTED
+Lock/thread/object addresses: UNMEASURED
+Precise precondition that triggers bug: TO DERIVE
+Observed order of syscalls and lock acquisitions: TO FILL
+First violated invariant: TO FILL
+Proof that alternate theory is false: TO FILL
+
+BEFORE REPRO
+1. Read original C/POC and crash report, not the AI-generated explanation as evidence.
+2. Pin matching kernel SHA, config, architecture, compiler ABI and module availability.
+3. Build a disposable QEMU VM; capture serial logs, kernel splats and strace.
+4. Run the original reproducer in the guest only. Stop on unintended writes to real block devices.
+5. Draw actual object-level wait graph. A lockdep class cycle does not always prove an object-level deadlock.
+6. Preserve the original log then reproduce on a patched kernel separately.
