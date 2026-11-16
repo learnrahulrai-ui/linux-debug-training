@@ -1,0 +1,341 @@
+SLIDE-BY-SLIDE SOURCE REVIEW / NOV 16 2026
+Repository source SHA: 4d09fa14eff8b8cf569adcc46072777db1d22a37
+Slide source: Slides/source/linux-debug-training-full.md
+Source separators interpreted as slides: 316
+Important: source slides, NOT 13 PDF binaries individually inspected. Not every slide contains a bug. Multiple PDF files are reorganizations of these sources.
+Matches below identify subject overlap, NOT that the training slide itself contains a production bug.
+
+001 | (figure, example or continuation) | no direct live-concurrency bug linkage
+002 | (figure, example or continuation) | no direct live-concurrency bug linkage
+003 | (figure, example or continuation) | no direct live-concurrency bug linkage
+004 | License Information | no direct live-concurrency bug linkage
+005 | License Information (Cont.) | no direct live-concurrency bug linkage
+006 | (figure, example or continuation) | no direct live-concurrency bug linkage
+007 | Course Outline | no direct live-concurrency bug linkage
+008 | (figure, example or continuation) | no direct live-concurrency bug linkage
+009 | (figure, example or continuation) | no direct live-concurrency bug linkage
+010 | (figure, example or continuation) | no direct live-concurrency bug linkage
+011 | Linux OS Architecture | no direct live-concurrency bug linkage
+012 | User Mode/Kernel Mode | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+013 | 32-bit Linux Address Space | no direct live-concurrency bug linkage
+014 | 32-bit User Space Addressing | no direct live-concurrency bug linkage
+015 | Virtual address mapping | no direct live-concurrency bug linkage
+016 | Virtual Memory Areas | no direct live-concurrency bug linkage
+017 | Kernel Logical Addressing | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+018 | Kernel Virtual Address | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+019 | 64-bit Linux Address Space | no direct live-concurrency bug linkage
+020 | 64-bit User Space Address | no direct live-concurrency bug linkage
+021 | 64-bit User Space Address Example | no direct live-concurrency bug linkage
+022 | 64-bit Kernel Space Address | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+023 | 64-bit Kernel Space Address | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+024 | 64-bit Kernel Space Address | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+025 | Summary of Virtual Addressing in Linux | no direct live-concurrency bug linkage
+026 | Memory Management/ MMU (part 1) | no direct live-concurrency bug linkage
+027 | Memory Management/ MMU (part 2) | no direct live-concurrency bug linkage
+028 | Page Fault Handling (part 1) | no direct live-concurrency bug linkage
+029 | Page Fault Handling (part 2) | no direct live-concurrency bug linkage
+030 | User Processes Mappings (part 1) | no direct live-concurrency bug linkage
+031 | User Processes Mappings (part 2) | no direct live-concurrency bug linkage
+032 | User Processes Mappings (part 3) | no direct live-concurrency bug linkage
+033 | Shared memory in user space  | v9fs cachefiles/IMA lockdep dependency
+034 | Processes and Threads (part 1) | vhost_task_stop KVM freezer hang
+035 | Processes and Threads (part 2) | vhost_task_stop KVM freezer hang
+036 | ELF - Executable Format | no direct live-concurrency bug linkage
+037 | ELF Format | no direct live-concurrency bug linkage
+038 | Shared Libraries (part 1) | v9fs cachefiles/IMA lockdep dependency
+039 | Shared Libraries (part 2) | v9fs cachefiles/IMA lockdep dependency
+040 | Shared Library Example | v9fs cachefiles/IMA lockdep dependency
+041 | Scheduling (part 1) | vhost_task_stop KVM freezer hang
+042 | Scheduling (part 2) | vhost_task_stop KVM freezer hang
+043 | Scheduling (part 3) | vhost_task_stop KVM freezer hang
+044 | Context Switching (part 1) | no direct live-concurrency bug linkage
+045 | Context Switching (part 2) | no direct live-concurrency bug linkage
+046 | Scheduling Algorithms (part 1) | vhost_task_stop KVM freezer hang
+047 | Scheduling Algorithms (part 2) | vhost_task_stop KVM freezer hang
+048 | System Calls | no direct live-concurrency bug linkage
+049 | System call trace of [memory example](https://github.com/SpecialistLinuxTraining/linux-debug-training/tree/main/Exa | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+050 | Exception | no direct live-concurrency bug linkage
+051 | Interrupts | no direct live-concurrency bug linkage
+052 | Interrupt Context | no direct live-concurrency bug linkage
+053 | Deferred Interrupts | no direct live-concurrency bug linkage
+054 | Kernel Thread | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+055 | Work Queue | no direct live-concurrency bug linkage
+056 | Soft IRQs | no direct live-concurrency bug linkage
+057 | Tasklets | no direct live-concurrency bug linkage
+058 | References | no direct live-concurrency bug linkage
+059 | (figure, example or continuation) | no direct live-concurrency bug linkage
+060 | Pseudo file system | OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+061 | /proc Filesystem | OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+062 | /proc Filesystem | OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+063 | /sys Filesystem | OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+064 | /dev Filesystem | OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+065 | Debug Filesystem | OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+066 | Linux Monitoring Tools | no direct live-concurrency bug linkage
+067 | Linux Performance Observability Tools | no direct live-concurrency bug linkage
+068 | Memory representation | no direct live-concurrency bug linkage
+069 | (figure, example or continuation) | no direct live-concurrency bug linkage
+070 | Process status (ps) command | no direct live-concurrency bug linkage
+071 | Table of processes (Top) command | no direct live-concurrency bug linkage
+072 | Process tree (pstree) | no direct live-concurrency bug linkage
+073 | (figure, example or continuation) | no direct live-concurrency bug linkage
+074 | free | no direct live-concurrency bug linkage
+075 | Virtual Memory Stats (vmstat) | no direct live-concurrency bug linkage
+076 | Process map (pmap) | no direct live-concurrency bug linkage
+077 | (figure, example or continuation) | no direct live-concurrency bug linkage
+078 | I/O Statistics (iostat) | no direct live-concurrency bug linkage
+079 | iotop | no direct live-concurrency bug linkage
+080 | Multi Processor Statistic (mpstat) | no direct live-concurrency bug linkage
+081 | (figure, example or continuation) | no direct live-concurrency bug linkage
+082 | Network statistics (netstat) | no direct live-concurrency bug linkage
+083 | ethtool | no direct live-concurrency bug linkage
+084 | tcpdump | no direct live-concurrency bug linkage
+085 | References | no direct live-concurrency bug linkage
+086 | (figure, example or continuation) | no direct live-concurrency bug linkage
+087 | binutils | no direct live-concurrency bug linkage
+088 | readelf | no direct live-concurrency bug linkage
+089 | readelf example | no direct live-concurrency bug linkage
+090 | objdump | no direct live-concurrency bug linkage
+091 | nm and addr2line | no direct live-concurrency bug linkage
+092 | ldd | no direct live-concurrency bug linkage
+093 | GNU Debugger (GDB) | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+094 | Debugging file format | OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+095 | GDB Debugging Options | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+096 | Debugging & Optimization options | no direct live-concurrency bug linkage
+097 | GDB command line options | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+098 | GDB command line options | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+099 | GDB command line options | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+100 | GDB command line options | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+101 | GDB command cheat-sheet | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+102 | GDB command cheat-sheet (Continued) | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+103 | Remote debugging | no direct live-concurrency bug linkage
+104 | Remote debugging | no direct live-concurrency bug linkage
+105 | Remote debugging with VSCode  | no direct live-concurrency bug linkage
+106 | Remote debugging with VSCode | no direct live-concurrency bug linkage
+107 | Extending GDB with python  | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+108 | Extending GDB with python (continued) | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+109 | Extending GDB with python (continued) | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+110 | Extending GDB with python (Resources) | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+111 | Shared Library Debugging (1) | v9fs cachefiles/IMA lockdep dependency
+112 | Shared Library Debugging (2) | v9fs cachefiles/IMA lockdep dependency
+113 | Shared Library Debugging (3) | v9fs cachefiles/IMA lockdep dependency
+114 | LD_PRELOAD | no direct live-concurrency bug linkage
+115 | libsegfault | no direct live-concurrency bug linkage
+116 | Crash Report | no direct live-concurrency bug linkage
+117 | Backtrace analysis | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+118 | Core dump | no direct live-concurrency bug linkage
+119 | Core Dump analysis with GDB | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+120 | References | no direct live-concurrency bug linkage
+121 | (figure, example or continuation) | no direct live-concurrency bug linkage
+122 | Memory management | no direct live-concurrency bug linkage
+123 | Impact of memory issue in application | no direct live-concurrency bug linkage
+124 | Segmentation faults (segfaults) | no direct live-concurrency bug linkage
+125 | Memory Leaks | no direct live-concurrency bug linkage
+126 | Buffer overflow | no direct live-concurrency bug linkage
+127 | Memory Debugging Tools | no direct live-concurrency bug linkage
+128 | Static analysis tools (clang analyzer) | no direct live-concurrency bug linkage
+129 | Valgrind | no direct live-concurrency bug linkage
+130 | Valgrind memcheck tool | no direct live-concurrency bug linkage
+131 | Valgrind memcheck report | no direct live-concurrency bug linkage
+132 | Valgrind with GDB | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+133 | Sanitizer | no direct live-concurrency bug linkage
+134 | Address Sanitizer (ASan) | no direct live-concurrency bug linkage
+135 | Address Sanitizer usage | no direct live-concurrency bug linkage
+136 | Memory Sanitizer (MSan) | no direct live-concurrency bug linkage
+137 | Thread Sanitizer (TSan) | vhost_task_stop KVM freezer hang
+138 | Undefined Behavior Sanitizer (UBSan) | no direct live-concurrency bug linkage
+139 | libefence | no direct live-concurrency bug linkage
+140 | Best Practices for Memory Management | no direct live-concurrency bug linkage
+141 | Best Practices for Memory Management | no direct live-concurrency bug linkage
+142 | References | no direct live-concurrency bug linkage
+143 | (figure, example or continuation) | no direct live-concurrency bug linkage
+144 | Introduction | no direct live-concurrency bug linkage
+145 | What can we do with trace? | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+146 | Tracing landscape in Linux | no direct live-concurrency bug linkage
+147 | Userspace application tracing | no direct live-concurrency bug linkage
+148 | Strace | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+149 | Strace example | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+150 | ltrace | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+151 | User-Level probe (uprobe) | no direct live-concurrency bug linkage
+152 | Uprobe example | no direct live-concurrency bug linkage
+153 | Uprobe example  | no direct live-concurrency bug linkage
+154 | perf tool | no direct live-concurrency bug linkage
+155 | perf_event (event tracing) | no direct live-concurrency bug linkage
+156 | User-level tracing using perf | no direct live-concurrency bug linkage
+157 | User-level tracing using perf | no direct live-concurrency bug linkage
+158 | Kernel space tracing | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+159 | Kernel Probes | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+160 | Registering kprobe and Kretprobe | no direct live-concurrency bug linkage
+161 | Kprobe events | no direct live-concurrency bug linkage
+162 | Kprobe events | no direct live-concurrency bug linkage
+163 | Perf Events Tracing | no direct live-concurrency bug linkage
+164 | Perf Events Tracing | no direct live-concurrency bug linkage
+165 | Perf Events Source | no direct live-concurrency bug linkage
+166 | Perf Static Tracepoints | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+167 | Perf Static Tracepoint Example | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+168 | Perf Dynamic Tracepoint | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+169 | Perf Dynamic Tracepoint | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+170 | Perf Dynamic Trace Example | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+171 | Perf Trace | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+172 | ftrace | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+173 | ftrace controls  | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+174 | ftrace tracers | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+175 | function and function_graph tracer | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+176 | irqsoff tracer | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+177 | irqsoff tracer example | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+178 | trace-cmd | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+179 | trace-cmd usage | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+180 | trace-cmd usage | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+181 | trace-cmd usage | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+182 | Kernelshark  | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+183 | Kernelshark GUI | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+184 | trace_printk() | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+185 | eBPF (Extended Berkeley Packet Filter) | no direct live-concurrency bug linkage
+186 | eBPF overview | no direct live-concurrency bug linkage
+187 | eBPF mechanism | no direct live-concurrency bug linkage
+188 | eBPF usage | no direct live-concurrency bug linkage
+189 | BCC (BPF Compiler Collection) Tools | no direct live-concurrency bug linkage
+190 | BCC tools | no direct live-concurrency bug linkage
+191 | BCC tools example | no direct live-concurrency bug linkage
+192 | bpftrace | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+193 | bpftrace tool | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+194 | bpftrace examples | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+195 | eBPF development infrastrucutre | no direct live-concurrency bug linkage
+196 | eBPF development infrastructure | no direct live-concurrency bug linkage
+197 | LTTng Introduction | no direct live-concurrency bug linkage
+198 | LTTng Introduction | no direct live-concurrency bug linkage
+199 | Components of LTTng | no direct live-concurrency bug linkage
+200 | LTTng Architecture | no direct live-concurrency bug linkage
+201 | LTTng core concepts | no direct live-concurrency bug linkage
+202 | LTTng Tracepoints | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+203 | Tracepoint provider package | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+204 | Tracepoint definition | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+205 | Tracepoint definition | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+206 | Tracepoint build mechanism | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+207 | LTTng user-space tracing | no direct live-concurrency bug linkage
+208 | LTTng kernel-space tracing | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+209 | LTTng preloaded helpers | no direct live-concurrency bug linkage
+210 | Remote tracing with LTTng | no direct live-concurrency bug linkage
+211 | References | no direct live-concurrency bug linkage
+212 | (figure, example or continuation) | no direct live-concurrency bug linkage
+213 | Introduction | no direct live-concurrency bug linkage
+214 | Profiling landscape in Linux | no direct live-concurrency bug linkage
+215 | Data Visualization  | no direct live-concurrency bug linkage
+216 | Histogram | no direct live-concurrency bug linkage
+217 | Histogram Visualization | no direct live-concurrency bug linkage
+218 | FlameGraph | no direct live-concurrency bug linkage
+219 | FlameGraph Visualization | no direct live-concurrency bug linkage
+220 | Memory profiling  | no direct live-concurrency bug linkage
+221 | Massif  | no direct live-concurrency bug linkage
+222 | Massif report (1/2) | no direct live-concurrency bug linkage
+223 | Massif report (2/2) | no direct live-concurrency bug linkage
+224 | Massif result analysis | no direct live-concurrency bug linkage
+225 | Massif Visualizer | no direct live-concurrency bug linkage
+226 | Heaptrack | no direct live-concurrency bug linkage
+227 | Heaptrack GUI | no direct live-concurrency bug linkage
+228 | Memusage | no direct live-concurrency bug linkage
+229 | Memusage example | no direct live-concurrency bug linkage
+230 | (figure, example or continuation) | no direct live-concurrency bug linkage
+231 | Memusage graphical representation | no direct live-concurrency bug linkage
+232 | (figure, example or continuation) | no direct live-concurrency bug linkage
+233 | eBPF profiler | OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+234 | eBPF profiler usage | OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+235 | Sysprof (1/2) | no direct live-concurrency bug linkage
+236 | Sysprof (2/2) | no direct live-concurrency bug linkage
+237 | Sysprof example | no direct live-concurrency bug linkage
+238 | GNU Profiler (gprof) [1/2] | OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+239 | GNU Profiler (gprof) [2/2] | OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+240 | Callgrind (1/2) | no direct live-concurrency bug linkage
+241 | Callgrind (2/2) | no direct live-concurrency bug linkage
+242 | KCachegrind  | no direct live-concurrency bug linkage
+243 | Cachegrind (1/2) | no direct live-concurrency bug linkage
+244 | Cachegrind (2/2) | no direct live-concurrency bug linkage
+245 | Cachegrind usage | no direct live-concurrency bug linkage
+246 | KCachegrind | no direct live-concurrency bug linkage
+247 | Perf stat (1/2) | no direct live-concurrency bug linkage
+248 | Perf stat (2/2) | no direct live-concurrency bug linkage
+249 | Perf stat example | no direct live-concurrency bug linkage
+250 | CPU Frequency Profiling | no direct live-concurrency bug linkage
+251 | Understanding CPU Frequency Scaling | no direct live-concurrency bug linkage
+252 | Tools for CPU Frequency Observation | no direct live-concurrency bug linkage
+253 | Demonstration: Powersave vs Performance | no direct live-concurrency bug linkage
+254 | Demonstration: Key observation | no direct live-concurrency bug linkage
+255 | References (1/2) | no direct live-concurrency bug linkage
+256 | References (2/2) | no direct live-concurrency bug linkage
+257 | (figure, example or continuation) | no direct live-concurrency bug linkage
+258 | Introduction | no direct live-concurrency bug linkage
+259 | Kernel Configuration | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+260 | Kernel debugging support | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+261 | Kernel logging system overview | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+262 | Kernel logging utilities (1/4) | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+263 | Kernel logging utilities (2/4) | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+264 | Kernel logging utilities (3/4) | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+265 | Kernel logging utilities (4/4) | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+266 | Kernel dynamic debugging (1/5) | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+267 | Kernel dynamic debugging (2/5) | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+268 | Kernel dynamic debugging (3/5) | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+269 | Kernel dynamic debugging (4/5) | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+270 | Kernel dynamic debugging (5/5) | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+271 | Dynamic debuggging case study | no direct live-concurrency bug linkage
+272 | Kernel crash debugging | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+273 | Kernel crash debugging | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+274 | Kernel OOPS (1/2) | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+275 | Kernel OOPS (2/2) | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+276 | Kernel OOPS Analysis (1/4) | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+277 | Kernel OOPS Analysis (2/4) | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+278 | Kernel OOPS Analysis (3/4) | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+279 | Kernel OOPS Analysis (4/4) | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+280 | Kernel Crash Analysis Using Sysrq | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+281 | Kernel Crash Analysis [SysRq] (1/3) | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+282 | Kernel Crash Analysis [SysRq] (2/3) | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+283 | Kernel Crash Analysis [SysRq] (3/3) | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+284 | Kexec and Kdump (1/3) | no direct live-concurrency bug linkage
+285 | Kexec and Kdump (2/3) | no direct live-concurrency bug linkage
+286 | Kexec and Kdump (3/3) | no direct live-concurrency bug linkage
+287 | Crash Utility | no direct live-concurrency bug linkage
+288 | Crash utility usage | no direct live-concurrency bug linkage
+289 | Magic SysRq | no direct live-concurrency bug linkage
+290 | Magic SysRq commands | no direct live-concurrency bug linkage
+291 | Kernel lock debugging | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+292 | Lockdep (1/2) | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+293 | Lockdep (2/2) | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+294 | Kernel Concurrency Sanitizer (KCSAN) | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency ; KVM vhost worker/task state
+295 | Kernel Memory debugging | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+296 | Kmemleak (1/3) | no direct live-concurrency bug linkage
+297 | Kmemleak (2/3) | no direct live-concurrency bug linkage
+298 | Kmemleak (3/3) | no direct live-concurrency bug linkage
+299 | Kernel Address Sanitizer (KASAN) | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+300 | Kernel Electric-Fence (KFENCE) (1/2) | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+301 | Kernel Electric-Fence (KFENCE) (2/2) | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+302 | Undefined Behavior Sanitizer (UBSAN) | no direct live-concurrency bug linkage
+303 | Kernel Debugger | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+304 | Kernel GNU Debugger (KGDB) | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+305 | KGDB kernel config | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+306 | Kernel Debugger (KDB) | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+307 | KDMX (1/2) | no direct live-concurrency bug linkage
+308 | KDMX (2/2) | no direct live-concurrency bug linkage
+309 | Setup and Configuration (1/4) | no direct live-concurrency bug linkage
+310 | Setup and Configuration (2/4) | no direct live-concurrency bug linkage
+311 | Setup and Configuration (3/4) | no direct live-concurrency bug linkage
+312 | Setup and Configuration (4/4) | no direct live-concurrency bug linkage
+313 | KGDB scripts | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+314 | KGDB Demo | vhost_task_stop KVM freezer hang ; OCFS2 lockdep duplicate_inline_data ; v9fs cachefiles/IMA lockdep dependency
+315 | References | no direct live-concurrency bug linkage
+316 | (figure, example or continuation) | no direct live-concurrency bug linkage
+
+DIRECT-LINK BUG SOURCES
+vhost_task_stop KVM freezer hang
+Tracker https://syzkaller.appspot.com/bug?extid=f59eab881ec20d423ab0
+Repro https://syzkaller.appspot.com/text?tag=ReproC&x=1782f8ad580000
+OPEN; reported 2026-11-12; ONE captured upstream crash on 2026-11-08; 32-bit C ABI
+
+OCFS2 lockdep duplicate_inline_data
+Tracker https://syzkaller.appspot.com/bug?extid=3f66416993279938e957
+Repro https://syzkaller.appspot.com/text?tag=ReproC&x=10784bfd580000
+OPEN; reported 2026-11-14; FIVE upstream reproductions
+
+v9fs cachefiles/IMA lockdep dependency
+Tracker https://syzkaller.appspot.com/bug?extid=b8ae5f37f5baa84cb085
+Repro https://syzkaller.appspot.com/bug?extid=b8ae5f37f5baa84cb085
+OPEN; reported 2026-11-14; RETEST 2026-11-16
+
+Source counts: full 316 slides; original part-1 142, part-2 184, intro 9. Part files overlap with full and should not be summed as independent slide designs.
