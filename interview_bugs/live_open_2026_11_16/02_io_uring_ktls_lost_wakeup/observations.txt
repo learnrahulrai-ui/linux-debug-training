@@ -1,0 +1,27 @@
+EXPERIMENT LOG — ISSUE #1644; USER TO FILL
+Date:
+uname -a:
+CPU and architecture:
+Kernel source SHA/tag:
+liburing version:
+io_uring_disabled:
+TLS support:
+VM or controlled host:
+Exact compile command:
+Exact run command:
+Exit code:
+Time to no-CQE stall:
+SIOCINQ queued bytes:
+poll() POLLIN observed:
+Additional five-second check:
+MSG_PEEK result:
+Total bytes transferred:
+ENOBUFS count:
+Rearm count:
+CQE count:
+Raw poll_refs per wake:
+Raw poll_refs per issue:
+Kprobe structure layout source:
+Original bug reproduced YES/NO/BLOCKED:
+Competing explanation ruled out:
+Kernel patch attempted: NO

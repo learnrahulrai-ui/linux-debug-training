@@ -1,0 +1,15 @@
+PROVENANCE and FACT CHECK — 2026-11-16
+Issue status OPEN: https://github.com/axboe/liburing/issues/1644
+upstream_repro.c is the original MIT-licensed C code block embedded in the issue, copied with no functional changes.
+source.cpp is a self-contained arithmetic exercise. It does not trigger the live kernel bug.
+The application kprobe snapshots in the exercise were observed by the REPORTER on another application with 256 buffers, not by this reproducer.
+This session has NOT executed C repro on user laptop or a matching kernel.
+Kernel paths verified directly in torvalds/linux tag v7.3-rc4:
+io_uring/poll.c lines 45-53, 73-99, 242-353
+io_uring/net.c lines 110, 853-924
+net/tls/tls_strp.c lines 550-579
+Refs: a26a35e9019f, 704ea888d646, 76b367a2d831, a68ed2df7213.
+The older HUP/EOF fix a68ed2df7213 is not proof this EPOLLIN lost wakeup is fixed.
+The report proposes fixes; neither is independently verified by the issue maintainer.
+Build with make exercise and make upstream-repro. Only run upstream-repro on a suitable controlled test system/VM.
+No attempt is made to claim compiler success for upstream_repro.c in this container, where liburing headers are unavailable.

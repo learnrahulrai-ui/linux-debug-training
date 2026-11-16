@@ -1,0 +1,48 @@
+HANDOFF FOR ANOTHER TUTOR — ISSUE #1644
+Source https://github.com/axboe/liburing/issues/1644
+STATUS open as checked 2026-11-16; original report Sep 26, 2026.
+GOAL: prove or refute a lost wakeup in a multishot recv on kTLS, reproduce on user's OWN laptop if supported and isolate any proposed fix.
+No user-machine execution has happened here. No fix supplied. No locally observed reproduction.
+DO NOT repeat speculative explanations as facts.
+DO NOT confuse original C reproducer with application kprobe traces quoted in issue.
+Give ONE atomic task per assistant message; verify its numeric answer before moving.
+Start with causal source facts, not conceptual analogies or tool memorization.
+When new value appears state which file/function supplied it and its type.
+Use original outputs; never invent offset layouts, struct positions, call counts or return values.
+FREQUENT DEEP TRAP: reported kprobe offsets +192 and +64 depend on reporter's build and cannot safely be reused on user's build without independent layout proof.
+
+SEQUENCE OF GATES (do not reveal future solutions early):
+0. Execute sh probe_readonly.sh on user's laptop. Compare kernel, features, liburing, architecture. If unavailable, use a QEMU guest or record BLOCKED; no false negative claims.
+1. Read first exact raw values, then calculate differences. Reveal one pair at a time.
+2. Read io_uring/poll.c v7.3-rc4 lines 45-53 and 73-99, derive mask, retry bit, bias numeric positions without inferring cause.
+3. Read io_uring/net.c v7.3-rc4 around lines 853-924 and 110. Trace how a receive requests a reschedule after recorded 32 retry limit; verify conditional branch.
+4. Read io_uring/poll.c v7.3-rc4 around lines 242-353. Follow io_poll_issue result through check_events and task_func, carefully distinguishing IOU_REQUEUE vs IOU_RETRY vs -EAGAIN.
+5. Read actual application timeline +0us through +96us. First bit change at +56us. Classify observations vs implied operations.
+6. Read net/tls/tls_strp.c ~550-579, trace msg_ready and callbacks. Show why socket-readable and a posted completion are distinct facts.
+7. Have trainee implement one TODO at a time in source.cpp; compile after EACH block; expected initial STATUS=UNSOLVED.
+8. Build original unchanged upstream_repro.c with make upstream-repro. Use a test VM/controlled system and kernel version suitable for this case. Check real exit status and stderr. Repro runs 16KiB sends and can transfer tens of GiB of LOOPBACK traffic in 45 seconds.
+9. For a fair control run original parameters, -p, -d, -b 256 and -l 1048576 with same kernel and comparable test conditions. Record each trial rather than averaging away negative trials.
+10. Trace on user's kernel with version-matched struct offsets and optional symbols. Do NOT copy reporter's absolute kprobe offsets. Record CQEs, socket queued bytes, wakeups, poll_refs and task worker.
+11. Examine primary commit histories and actual diffs: a26a35e9019f (bias), 704ea888d646 (requeue code), 76b367a2d831 (fairness retry limit), a68ed2df7213 (older HUP-only fix). Distinguish earlier fixed bug from this report.
+12. Derive all candidate schedules and counterexamples. Propose patch ONLY after proof. Retest exact kernel with same setup in isolated VM and discuss cancellation/HUP regression implications.
+
+REAL VALUES:
+Kernel threshold 128 = 0x80.
+Reporter original test 1024 * 32768 byte provided buffers, 16384 byte sender records.
+Application trace io_poll_issue raw refs [0x1,0x22,0x43,0x64,0x80,0x80], return values [-3072,-3072,-3072,-3072,-3072,-11].
+Reporter application at +56us and +93us io_poll_wake raw=0x40000080; +95us tls_sw_recvmsg returns -EAGAIN.
+Earlier run recorded 818802 queued bytes, POLLIN set, no CQE for 1 second, another 5 seconds no recovery, then MSG_PEEK kick.
+Default stall frequency reporter 9/17, plain TCP 0/3, 256 buffers 0/3, limit 1048576 0/11. NOT probabilities of this user's machine.
+
+PRIMARY SOURCES:
+https://github.com/torvalds/linux/blob/v7.3-rc4/io_uring/poll.c
+https://github.com/torvalds/linux/blob/v7.3-rc4/io_uring/net.c
+https://github.com/torvalds/linux/blob/v7.3-rc4/net/tls/tls_strp.c
+https://github.com/torvalds/linux/commit/a26a35e9019fd70bf3cf647dcfdae87abc7bacea
+https://github.com/torvalds/linux/commit/704ea888d646cb9d715662944cf389c823252ee0
+https://github.com/torvalds/linux/commit/76b367a2d83163cf19173d5cb0b562acbabc8eac
+https://github.com/torvalds/linux/commit/a68ed2df72131447d131531a08fe4dfcf4fa4653
+Related old bug https://github.com/axboe/liburing/issues/1549
+Maintainer did not certify the reporter's two candidate fixes.
+TUTOR FIRST MESSAGE, ONE TASK ONLY:
+0x64 -> 0x80. CALCULATE 0x80 - 0x64 in decimal and hexadecimal. Reply with the two numbers.
